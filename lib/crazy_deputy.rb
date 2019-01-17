@@ -5,17 +5,17 @@ def name_of_deputy
   doc = Nokogiri::HTML(open('https://www.nosdeputes.fr/deputes'))
       symbols = []
 # recherche nom de la ville # //body//tr/td/a//span[@class='list_nom']
-    doc.xpath('//body//tr/td//span[@class='list_nom']').each do |a|
+    doc.css('html body div#contenu div#corps_page div.contenu_page div.liste div.list_table table tbody tr td a div.list_dep.jstitle.phototitle.block span.list_nom').each do |a|
       symbols << a.content
     end
-    puts symbols
+    return symbols
 end
 
 def url
   doc = Nokogiri::HTML(open('https://www.nosdeputes.fr/deputes'))
   link = []
 # recherche urls #
-    doc.css('//body//p/a[contains(html)]/@href').each do |c|
+    doc.css('//body//table//tr//a[contains(html)]/@href').each do |c|
       link << 'http://annuaire-des-mairies.com' + c.content[1..-1]
     end
     return link
@@ -26,15 +26,15 @@ def e_mail
   com = Nokogiri::HTML( open('https://www.nosdeputes.fr/'+name) )
 # recherche e-mail de député #
     emails = com.xpath('//body//ul[2]/li[1]/ul/li[1]/a')
-      emails_ville << emails.text
+      e << emails.text
     end
-  return emails_ville
+  return e
 end
 
 def dat
   data = []
-  data = ville.zip(emails_ville)
-  return data
+  data = name_of_deputy.zip(e)
+  puts data
 end
 
 def tab
@@ -45,8 +45,8 @@ end
 
 def perform
   name_of_deputy
-  url
-  e_mail
+#  url
+#  e_mail
   dat
   tab
 end
