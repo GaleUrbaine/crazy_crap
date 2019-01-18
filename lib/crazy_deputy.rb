@@ -22,6 +22,7 @@ def url
 end
 
 def e_mail
+  e = []
   name_of_deputy.each do |name|
   com = Nokogiri::HTML( open('https://www.nosdeputes.fr/'+name) )
 # recherche e-mail de député #
@@ -33,7 +34,7 @@ end
 
 def dat
   data = []
-  data = name_of_deputy.zip(e)
+  data = name_of_deputy.zip(e_mail)
   puts data
 end
 
@@ -45,8 +46,8 @@ end
 
 def perform
   name_of_deputy
-#  url
-#  e_mail
+  url
+  e_mail
   dat
   tab
 end
